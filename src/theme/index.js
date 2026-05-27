@@ -158,7 +158,7 @@ export function FontLoader({ dark, themeId = "obsidian" }) {
         background:${base.bg};color:${base.ink};
         font-family:'Plus Jakarta Sans','SF Pro Display',system-ui,-apple-system,sans-serif;
         -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
-        transition:background .3s,color .3s;height:100%;overflow:hidden;
+        transition:background .3s,color .3s;height:100%;overflow:auto;
       }
       #root{height:100%;display:flex;flex-direction:column}
       input,select,textarea,button{font-family:inherit}
