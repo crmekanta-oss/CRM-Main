@@ -1,0 +1,28 @@
+body {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Mobile optimizations ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* CRITICAL: Prevent iOS auto-zoom on input focus (must be >= 16px) */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* Hide login left panel on mobile */
+  .ek-login-left {
+    display: none !important;
+  }
+  .ek-login-mobile-logo {
+    display: flex !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .ek-login-left {
+    display: flex !important;
+  }
+}
