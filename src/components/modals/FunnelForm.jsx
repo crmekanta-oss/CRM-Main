@@ -15,7 +15,19 @@ export function FunnelForm({onClose,onSave,existing,user,users=[],T}) {
 
   const draft = !existing ? loadDraft() : null;
   const [showDraftBanner, setShowDraftBanner] = useState(!!draft);
-  const [form,setForm]=useState(existing?{...blank,...existing,products:existing.products?.length?existing.products:blank.products}:blank);
+  const [form,setForm]=useState(existing?{
+    ...blank,
+    ...existing,
+    orderNumber:     existing.orderNumber     ?? "",
+    paymentTerms:    existing.paymentTerms    ?? "",
+    deliveryDetails: existing.deliveryDetails ?? "",
+    lostDropReason:  existing.lostDropReason  ?? "",
+    cityRegion:      existing.cityRegion      ?? "",
+    email:           existing.email           ?? "",
+    remarks:         existing.remarks         ?? "",
+    quoteDesc:       existing.quoteDesc       ?? "",
+    products: existing.products?.length ? existing.products : blank.products,
+  }:blank);
   const [errs,setErrs]=useState({});
 
   // Auto-save draft on every form change (only for new funnels)
