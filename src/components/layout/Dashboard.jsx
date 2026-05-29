@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { F, F_MONO, F_BODY, F_SERIF } from "../../theme/index.js";
 import { Dot, Avatar, StatusPill, SourcePill, Ic, P, Badge } from "../ui/index.jsx";
 import { big, inr, today } from "../../utils.js";
@@ -148,8 +148,53 @@ export function Dashboard({ funnels, user, onView, onAdd, statFilter, onStatClic
     { label: "Revenue",      value: big(revenue), sub: "Closed revenue",     dot: T.won.dot,     icon: P.trend,  spark: [5,8,6,10,9,13,11,revenue/1000||8], onClick: () => onStatClick("Won"), active: false },
   ];
 
+  // ── Live clock & greeting ──
+  const [now, setNow] = useState(new Date());
+  useEffect(() => {
+    const t = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(t);
+  }, []);
+  const hour = now.getHours();
+  const greeting  = hour < 12 ? "Good Morning" : hour < 17 ? "Good Afternoon" : hour < 21 ? "Good Evening" : "Good Night";
+  const greetIcon = hour < 12 ? "🌅" : hour < 17 ? "☀️" : hour < 21 ? "🌆" : "🌙";
+  const timeStr   = now.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true });
+  const dateStr   = now.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  const firstName = (user?.name || "there").split(" ")[0];
+
   return (
     <div style={{ padding: "clamp(14px, 3vw, 24px) clamp(14px, 4vw, 28px)", fontFamily: F_BODY }}>
+
+      {/* ── Welcome banner ── */}
+      <div style={{
+        display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12,
+        background: T.surface, border: `1.5px solid ${T.line}`,
+        borderLeft: `4px solid ${T.brand}`,
+        borderRadius: 14, padding: "16px 22px", marginBottom: 24,
+        boxShadow: T.shadowSm, animation: "fadeUp .3s ease both",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{
+            width: 46, height: 46, borderRadius: "50%",
+            background: `linear-gradient(135deg, ${T.brand}, ${T.brand}99)`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 20, flexShrink: 0, boxShadow: `0 4px 12px ${T.brand}40`,
+          }}>{greetIcon}</div>
+          <div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: T.ink, fontFamily: F, letterSpacing: "-0.4px", lineHeight: 1.2 }}>
+              {greeting}, {firstName}!
+            </div>
+            <div style={{ fontSize: 12, color: T.inkMuted, marginTop: 3 }}>{dateStr}</div>
+          </div>
+        </div>
+        <div style={{
+          display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2,
+          background: T.surfaceEl, borderRadius: 10, padding: "10px 16px",
+          border: `1px solid ${T.line}`,
+        }}>
+          <div style={{ fontSize: 22, fontWeight: 800, color: T.ink, fontFamily: F_MONO, letterSpacing: "0.04em", lineHeight: 1 }}>{timeStr}</div>
+          <div style={{ fontSize: 10, color: T.inkMuted, fontFamily: F_MONO, letterSpacing: "0.08em", textTransform: "uppercase" }}>Local Time</div>
+        </div>
+      </div>
 
       {/* KPI cards */}
       <div className="ek-kpi-grid" style={{ marginBottom: 24 }}>
