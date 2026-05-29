@@ -119,7 +119,7 @@ export function CREEditModal({funnel,onClose,onSave,T}) {
             <FInput
               label="Order Number"
               value={orderNumber}
-              onChange={e=>setOrderNumber(e.target.value)}
+              onChange={v=>setOrderNumber(v)}
               placeholder="Enter order number"
               T={T}
             />
